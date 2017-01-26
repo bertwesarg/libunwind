@@ -1,4 +1,5 @@
 # man pages that go into section 3:
+if !EMBEDDED
 man3_MANS = libunwind.man libunwind-dynamic.man libunwind-ia64.man	\
 	libunwind-ptrace.man libunwind-setjmp.man			\
 	unw_backtrace.man						\
@@ -24,6 +25,7 @@ man3_MANS = libunwind.man libunwind-dynamic.man libunwind-ia64.man	\
 	unw_strerror.man						\
 	_U_dyn_register.man						\
 	_U_dyn_cancel.man
+endif !EMBEDDED
 
 EXTRA_DIST = NOTES libunwind.trans					\
 	libunwind.tex libunwind-dynamic.tex libunwind-ia64.tex		\

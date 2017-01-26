@@ -140,6 +140,13 @@ AC_ARG_ENABLE(backtrace,
 AC_MSG_CHECKING([if we should build libunwind-setjmp])
 AC_MSG_RESULT([$enable_setjmp])
 
+AC_ARG_ENABLE([embedded],
+	      [AS_HELP_STRING([--enable-embedded],
+			      [Enable embedded support (i.e., do not install anything) @<:@default=no@:>@])
+	      ],
+	      [],
+	      [enable_embedded=no])
+
 AC_MSG_CHECKING([for build architecture])
 AC_MSG_RESULT([$build_arch])
 AC_MSG_CHECKING([for host architecture])
@@ -397,6 +404,8 @@ AC_SUBST(enable_cxx_exceptions)
 AC_SUBST(enable_debug_frame)
 AC_SUBST(DLLIB)
 AC_SUBST(BACKTRACELIB)
+
+AM_CONDITIONAL([EMBEDDED], [test x"$enable_embedded" = x"yes"])
 
 AC_PATH_PROG([LATEX2MAN],[latex2man])
 if test "x$LATEX2MAN" = "x"; then
