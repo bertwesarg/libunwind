@@ -1,6 +1,6 @@
 /* libunwind - a platform-independent unwind library
-   Copyright (C) 2003, 2005 Hewlett-Packard Co
-        Contributed by David Mosberger-Tang <davidm@hpl.hp.com>
+   Copyright (C) 2001-2004 Hewlett-Packard Co
+	Contributed by David Mosberger-Tang <davidm@hpl.hp.com>
 
 This file is part of libunwind.
 
@@ -23,38 +23,18 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
 
-#ifndef _UPT_internal_h
-#define _UPT_internal_h
+#ifndef libunwind_obj_h
+#define libunwind_obj_h
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#define UNW_PASTE2(x,y)	x##y
+#define UNW_PASTE(x,y)	UNW_PASTE2(x,y)
+#define UNW_OBJ(fn)	UNW_PASTE(UNW_PREFIX, fn)
+#define UNW_ARCH_OBJ(fn) UNW_PASTE(UNW_PASTE(UNW_PASTE(_U,UNW_TARGET),_), fn)
 
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef HAVE_SYS_PTRACE_H
-#include <sys/ptrace.h>
-#endif
-#ifdef HAVE_SYS_PROCFS_H
-#include <sys/procfs.h>
-#endif
+#ifdef UNW_LOCAL_ONLY
+# define UNW_PREFIX	UNW_PASTE(UNW_PASTE(UNW_PASTE(_U,L),UNW_TARGET),_)
+#else /* !UNW_LOCAL_ONLY */
+# define UNW_PREFIX	UNW_PASTE(UNW_PASTE(_U,UNW_TARGET),_)
+#endif /* !UNW_LOCAL_ONLY */
 
-#include <errno.h>
-#include <libunwind-ptrace.h>
-#include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "libunwind_i.h"
-
-struct UPT_info
-  {
-    pid_t pid;          /* the process-id of the child we're unwinding */
-    struct elf_dyn_info edi;
-  };
-
-#define _UPT_reg_offset UPT_OBJ(reg_offset)
-extern const int _UPT_reg_offset[UNW_REG_LAST + 1];
-
-#endif /* _UPT_internal_h */
+#endif /* libunwind_obj_h */

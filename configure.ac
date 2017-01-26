@@ -147,6 +147,13 @@ AC_ARG_ENABLE([embedded],
 	      [],
 	      [enable_embedded=no])
 
+AC_ARG_WITH([symbol-prefix],
+	      [AS_HELP_STRING([--symbol-prefix=PREFIX],
+			      [Prefix all symbols with PREFIX.])
+	      ],
+	      [AS_CASE([$withval], [yes|no], [], [symbol_prefix=$withval])],
+	      [])
+
 AC_MSG_CHECKING([for build architecture])
 AC_MSG_RESULT([$build_arch])
 AC_MSG_CHECKING([for host architecture])
@@ -406,6 +413,9 @@ AC_SUBST(DLLIB)
 AC_SUBST(BACKTRACELIB)
 
 AM_CONDITIONAL([EMBEDDED], [test x"$enable_embedded" = x"yes"])
+
+AS_IF([test x$symbol_prefix != x && test x"$enable_embedded" = x"yes"],
+      [CPPFLAGS="$CPPFLAGS -D_U=${symbol_prefix}_U"])
 
 AC_PATH_PROG([LATEX2MAN],[latex2man])
 if test "x$LATEX2MAN" = "x"; then
