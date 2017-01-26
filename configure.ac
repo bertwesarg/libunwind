@@ -133,6 +133,10 @@ AC_ARG_ENABLE(tests,
  AS_HELP_STRING([--disable-tests],[Disable tests build]),,
  [enable_tests=yes])
 
+AC_ARG_ENABLE(backtrace,
+ AS_HELP_STRING([--disable-backtrace],[Disable backtrace]),,
+ [enable_backtrace=yes])
+
 AC_MSG_CHECKING([if we should build libunwind-setjmp])
 AC_MSG_RESULT([$enable_setjmp])
 
@@ -411,6 +415,8 @@ AC_CONFIG_FILES(tests/Makefile)
 if test "x$enable_tests" = "xyes"; then
   AC_CONFIG_FILES(tests/check-namespace.sh)
 fi
+
+AM_CONDITIONAL([CONFIG_BACKTRACE], [test x$enable_backtrace = xyes])
 
 AC_CONFIG_FILES(Makefile src/Makefile
                 include/libunwind-common.h

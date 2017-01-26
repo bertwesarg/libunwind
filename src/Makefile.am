@@ -130,7 +130,6 @@ endif
 # List of arch-independent files needed by local-only library (libunwind):
 libunwind_la_SOURCES_local_nounwind =					\
 	$(libunwind_la_SOURCES_os_local)				\
-	mi/backtrace.c							\
 	mi/dyn-cancel.c mi/dyn-info-list.c mi/dyn-register.c		\
 	mi/Ldyn-extract.c mi/Lfind_dynamic_proc_info.c			\
 	mi/Lget_accessors.c						\
@@ -140,6 +139,11 @@ libunwind_la_SOURCES_local_nounwind =					\
 	mi/Lget_fpreg.c mi/Lset_fpreg.c					\
 	mi/Lset_caching_policy.c					\
 	mi/Lset_cache_size.c
+
+if CONFIG_BACKTRACE
+libunwind_la_SOURCES_local_nounwind +=					\
+	mi/backtrace.c
+endif CONFIG_BACKTRACE
 
 libunwind_la_SOURCES_local =						\
 	$(libunwind_la_SOURCES_local_nounwind)				\
